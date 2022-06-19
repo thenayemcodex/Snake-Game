@@ -1,0 +1,162 @@
+#:kivy 1.8.0
+
+<Snake>
+    head: snake_head
+    tail: snake_tail
+
+    SnakeHead:
+        id: snake_head
+        width: root.width
+        height: root.height
+
+    SnakeTail:
+        id: snake_tail
+        width: root.width
+        height: root.height
+
+<SnakeGame>:
+    snake: snake_object
+    fruit: fruit_object
+
+    Label:
+        font_size: 70
+        center_x: root.x + root.width/root.col_number*2
+        top: root.top - root.height/root.row_number
+        text: str(root.score)
+        color:"#02f020"
+
+    Snake:
+        id: snake_object
+        width: root.width/root.col_number
+        height: root.height/root.row_number
+
+    Fruit:
+        id: fruit_object
+        width: root.width/root.col_number
+        height: root.height/root.row_number
+
+<OptionsPopup>
+    border_option_widget: border_option_instance
+    speed_option_widget: speed_option_instance
+
+    title: "Options"
+    size_hint: .75, .75
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 20
+
+        GridLayout:
+            size_hint_y: .8
+            cols: 2
+
+            Label:
+                text: "Borders"  
+                halign: "center"
+                color:"#e85925"
+                bold:True
+
+            Switch:
+                id: border_option_instance
+
+            Label: 
+                text: "Game speed"
+                halign: "center"
+                color:"#00ffce"
+                bold:True
+
+            Slider:
+                id: speed_option_instance
+                max: 40
+                min: 1
+                step: 1
+                value: 1
+
+        AnchorLayout:
+            anchor_x: "center"
+            size_hint: 1, .25
+
+            Button:
+                size_hint_x: 0.5
+                text: "Save changes"
+                color:"#02f020"
+                bold:True
+                background_color:"#00ffce"
+                background_normal:""
+                size_hint: (.5,.5)
+                pos_hint:{"center_x":.5,"center_y":.5}
+                on_press: root.dismiss()
+
+
+<MainMenuScreen>:
+    AnchorLayout:
+        anchor_x: "center"
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: (0.5, 1)
+            spacing: 10
+            
+            Image:
+                source: "dc.png"
+                size_hint: (1.5,.7)
+                pos_hint:{"center_x":.5,"center_y":1.5}
+
+            Label:
+                size_hint_y: .05
+                text: "_________DC-Snake_________"
+                bold: True
+                font_size: 50
+                color: "#02e020"
+                #padding: 0, 0
+            Label:
+                size_hint_y: .05
+                text: "~~~Enjoy YourSelf ~~~"
+                bold: True
+                font_size: 32
+                color:"#02f002"
+                #padding: 0, 0
+
+            AnchorLayout:
+                anchor_x: "center"
+                size_hint_y: .6
+
+                BoxLayout:
+                    size_hint: .5, .5
+                    orientation: "vertical"
+                    spacing: 10
+
+                    Button:
+                        halign: "center"
+                        valign: "middle"
+                        text: "Play Game"
+                        color:"#02f020"
+                        bold:True
+                        background_color:"#00ffce"
+                        background_normal:""
+                        size_hint: (1.5,.5)
+                        pos_hint:{"center_x":.5,"center_y":.5}
+                        on_press: root.manager.current = 'game_screen'
+
+                    Button:
+                        halign: "center"
+                        valign: "middle"
+                        text: "Show Options"
+                        bold:True
+                        background_color:"#e85925"
+                        background_normal:""
+                        size_hint: (1.5,.5)
+                        pos_hint:{"center_x":.5,"center_y":.5}
+                        on_press: root.show_popup()
+                    Label:
+                        text:"This Game Powered By \n    Dev's-Community ©"
+                        bold:True
+                        font_size:32
+                        padding:(0,40)
+
+
+<GameScreen>:
+    game_widget: game_widget_instance
+
+    SnakeGame:
+        id: game_widget_instance
